@@ -15,5 +15,8 @@
     "EUR_USD",
     "USD_JPY",
     "AUD_USD"
-  ]
+  ],
+  "strategy": {
+    "sma-duration": 18
+  }
 }
