@@ -1,0 +1,19 @@
+{
+  "mq": {
+    "inflow": {
+      "uri": "tcp://127.0.0.1:8801"
+    },
+    "outflow": {
+      "uri": "tcp://127.0.0.1:8802"
+    }
+  },
+  "mongo": {
+    "uri": "mongodb://localhost:27017/trademach",
+    "options": {}
+  },
+  "instruments": [
+    "EUR_USD",
+    "USD_JPY",
+    "AUD_USD"
+  ]
+}
