@@ -17,6 +17,7 @@
     "AUD_USD"
   ],
   "strategy": {
-    "sma-duration": 18
+    "sma-duration": 18,
+    "position-size": 100000
   }
 }

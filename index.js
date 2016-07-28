@@ -40,8 +40,6 @@ function handleMessage(topic, data) {
   // return if instrument is not included
   if(INSTRUMENTS.indexOf(instrument) === -1) return;
 
-  console.log(`received - ${instrument}`);
-
   const tickQueue = tickQueues[instrument];
   tickQueue.push(tick);
 
@@ -58,6 +56,58 @@ function handleMessage(topic, data) {
 
   // return if there is not last diff yet
   if(typeof lastDiff !== 'number') return;
+
+  let signal;
+  if(lastDiff < 0 && diff > 0) {
+    signal = 'long';
+
+  } else if(lastDiff > 0 && diff < 0) {
+    signal = 'short';
+
+  }
+
+  if(signal) {
+    const positionSize = config.get('strategy.position-size');
+    let position;
+
+    if(signal === 'long') {
+      position = positionSize;
+
+    } else if(signal === 'short') {
+      position = -positionSize;
+
+    } else {
+      return;
+    }
+
+    console.log(`signal - ${signal} => ${instrument}`);
+
+    // send to OANDA executer
+    const executerMessage = {
+      instrument: instrument,
+      action: 'match',
+      position: position,
+      type: 'market'
+    };
+    socketOut.send([
+      'executer',
+      JSON.stringify(executerMessage)
+    ]);
+
+    // send to Telegram messager
+    const messagerMessage = {
+      strategy: 'smaTest',
+      instrument: instrument,
+      signal: signal,
+      position: position,
+      ask: tick.ask,
+      bid: tick.bid
+    };
+    socketOut.send([
+      'messager',
+      JSON.stringify(messagerMessage)
+    ]);
+  }
 }
 
 init();
