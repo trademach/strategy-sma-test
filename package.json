@@ -5,7 +5,7 @@
   "dependencies": {
     "config": "^1.19.0",
     "moment": "^2.11.2",
-    "mongoose": "^4.4.3",
+    "mongoose": "^5.7.7",
     "zmq": "^2.14.0"
   }
 }
